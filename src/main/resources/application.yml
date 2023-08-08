@@ -1,0 +1,15 @@
+# Spring Boot configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demoDB
+    username: postgres
+    password: postgres
+  jpa:
+    database: postgresql
+    show-sql: true
+  flyway:
+    #    locations: filesystem:.\src\main\resources\db\migration
+    enabled: true
+# Server configuration
+server:
+  port: 8088

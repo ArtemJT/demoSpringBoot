@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @Builder
 @Table(name = "clients")
-public final class Customer {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +33,7 @@ public final class Customer {
     @Builder.Default
     private Boolean isDeleted = Boolean.FALSE;
 
-    @OneToMany
-    @JoinColumn(name = "client_id")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
 }

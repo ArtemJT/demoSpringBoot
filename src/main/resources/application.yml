@@ -1,6 +1,10 @@
 # Spring Boot configuration
 spring:
+  docker:
+    compose:
+      enabled: false
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/demoDB
     username: postgres
     password: postgres
@@ -10,6 +14,11 @@ spring:
   flyway:
     #    locations: filesystem:.\src\main\resources\db\migration
     enabled: true
+    baseline-on-migrate: true
+# Logger configuration
+logging:
+  level:
+    com.example.demospringboot: debug
 # Server configuration
 server:
   port: 8088

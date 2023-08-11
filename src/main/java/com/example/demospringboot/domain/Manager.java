@@ -15,22 +15,22 @@ import java.util.Set;
 @Setter
 @Builder
 @Table(name = "managers")
-public final class Manager {
+public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(unique = true, nullable = false)
-    private String department;
+    private String email;
 
     @Builder.Default
     private Boolean isDeleted = Boolean.FALSE;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private Set<Order> orders;
 }

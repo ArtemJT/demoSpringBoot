@@ -1,10 +1,10 @@
 package com.example.demospringboot.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * @author Artem Kovalov on 08.08.2023
@@ -16,24 +16,24 @@ import java.util.UUID;
 @Setter
 @Builder
 @Table(name = "bookings")
-public final class Order {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
     @Builder.Default
-    private String uuid = UUID.randomUUID().toString();
-
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(nullable = false)
     private OrderStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    @JsonIgnore
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Manager manager;
 }

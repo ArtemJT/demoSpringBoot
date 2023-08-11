@@ -2,8 +2,8 @@ create table if not exists public.managers
 (
     id         serial
         primary key,
-    name       varchar(255),
-    department varchar(255),
+    name       varchar(255) not null,
+    email      varchar(255) not null,
     is_deleted boolean default false
 );
 
@@ -13,15 +13,14 @@ create table if not exists public.clients
         primary key,
     login      varchar(255) unique not null,
     name       varchar(255)        not null,
-    email      varchar(255)        not null,
+    email      varchar(255) unique not null,
     is_deleted boolean default false
 );
 
-create table if not exists bookings
+create table if not exists public.bookings
 (
     id            serial
         primary key,
-    uuid          varchar not null,
     creation_date timestamp,
     status        varchar,
     client_id     integer

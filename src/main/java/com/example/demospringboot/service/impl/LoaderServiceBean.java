@@ -1,9 +1,8 @@
-package com.example.demospringboot.service.db_fill_dervice;
+package com.example.demospringboot.service.impl;
 
 import com.example.demospringboot.domain.Customer;
-import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.repository.CustomerRepository;
-import com.example.demospringboot.repository.ManagerRepository;
+import com.example.demospringboot.service.interfaces.LoaderService;
 import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,46 +18,17 @@ import java.util.Random;
 @Service
 public class LoaderServiceBean implements LoaderService {
 
-    private final ManagerRepository managerRepository;
     private final CustomerRepository customerRepository;
 
-    /**
-     *
-     */
     @Override
-    public void generateData(Integer qty) {
-        List<Manager> managers = createManagersList(qty);
-        managerRepository.saveAll(managers);
+    public void generateCustomers(Integer qty) {
         List<Customer> customers = createCustomersList(qty);
         customerRepository.saveAll(customers);
     }
 
-    /**
-     * @return
-     */
     @Override
-    public long count() {
+    public long countCustomers() {
         return customerRepository.count();
-    }
-
-    private List<Manager> createManagersList(Integer qty) {
-
-        List<Manager> managerList = new ArrayList<>();
-        long seed = 1;
-
-        Faker faker = new Faker(new Locale("en"), new Random(seed));
-        for (int i = 0; i < qty; i++) {
-            String name = faker.name().name();
-            String dept = faker.commerce().department();
-
-            Manager manager = Manager.builder()
-                    .name(name)
-                    .department(dept)
-                    .build();
-            managerList.add(manager);
-        }
-
-        return managerList;
     }
 
     private List<Customer> createCustomersList(Integer qty) {
@@ -70,7 +40,7 @@ public class LoaderServiceBean implements LoaderService {
         for (int i = 0; i < qty; i++) {
             String name = faker.name().name();
             String login = faker.name().username();
-            String email = faker.name().username() + "@mail.com";
+            String email = login.replace('.', '_') + "@mail.com";
 
             Customer manager = Customer.builder()
                     .login(login)

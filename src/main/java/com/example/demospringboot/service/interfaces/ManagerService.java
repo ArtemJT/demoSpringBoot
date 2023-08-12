@@ -18,8 +18,6 @@ public interface ManagerService {
 
     Manager deleteById(Integer id);
 
-    Manager getRandomManager();
-
     List<Booking> getAllOrdersByManagerId(Integer id);
 
     List<Booking> getAllProcessingOrdersForManager(Integer id);

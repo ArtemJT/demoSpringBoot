@@ -1,17 +1,16 @@
 package com.example.demospringboot.service.impl;
 
-import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.domain.Booking;
 import com.example.demospringboot.domain.BookingStatus;
-import com.example.demospringboot.repository.ManagerRepository;
+import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.repository.BookingRepository;
+import com.example.demospringboot.repository.ManagerRepository;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Artem Kovalov on 10.08.2023
@@ -22,7 +21,6 @@ public class ManagerServiceBean implements ManagerService {
 
     private final ManagerRepository managerRepository;
     private final BookingRepository bookingRepository;
-    private final Random random = new Random();
 
     @Override
     public Manager create(Manager manager) {
@@ -56,19 +54,5 @@ public class ManagerServiceBean implements ManagerService {
         return getAllOrdersByManagerId(id).stream()
                 .filter(order -> BookingStatus.PROCESSING.equals(order.getStatus()))
                 .toList();
-    }
-
-    @Override
-    public Manager getRandomManager() throws EntityNotFoundException {
-        List<Manager> managerList = getAll().stream()
-                .filter(manager -> Boolean.FALSE.equals(manager.getIsDeleted()))
-                .toList();
-
-        if (managerList.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        int randomPos = random.nextInt(managerList.size());
-        return managerList.get(randomPos);
     }
 }

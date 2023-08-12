@@ -61,6 +61,18 @@ public class RequestServiceBean implements RequestService {
     }
 
     @Override
+    public Request assignManagerToRequest(Integer bookingId, Integer managerId) {
+        Request request = getById(bookingId);
+        if (request.getManager() != null) {
+            throw new RequestAssignException(String.valueOf(bookingId));
+        }
+
+        Manager manager = managerService.getById(managerId);
+        request.setManager(manager);
+        return requestRepository.save(request);
+    }
+
+    @Override
     public Request completeRequest(Integer id) {
         Request requestById = getById(id);
         checkAssign(requestById);
@@ -79,15 +91,20 @@ public class RequestServiceBean implements RequestService {
     }
 
     @Override
-    public Request assignManagerToRequest(Integer bookingId, Integer managerId) {
-        Request request = getById(bookingId);
-        if (request.getManager() != null) {
-            throw new RequestAssignException(String.valueOf(bookingId));
-        }
+    public List<Request> getAllRequestsByCustomerId(Integer id) throws EntityNotFoundException {
+        return requestRepository.findAllByCustomer(customerService.getById(id));
+    }
 
-        Manager manager = managerService.getById(managerId);
-        request.setManager(manager);
-        return requestRepository.save(request);
+    @Override
+    public List<Request> getAllRequestsByManagerId(Integer id) throws EntityNotFoundException {
+        return requestRepository.findAllByManager(managerService.getById(id));
+    }
+
+    @Override
+    public List<Request> getAllInProgressRequestsForManager(Integer id) {
+        return getAllRequestsByManagerId(id).stream()
+                .filter(order -> RequestStatus.IN_PROGRESS.equals(order.getStatus()))
+                .toList();
     }
 
     @Override

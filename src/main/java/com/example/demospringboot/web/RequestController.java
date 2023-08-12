@@ -33,23 +33,9 @@ public class RequestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("request/assign")
-    public RequestFullDto assignManager(@RequestParam Integer orderId, @RequestParam Integer managerId) {
-        Request request = requestService.assignManagerToRequest(orderId, managerId);
-        return requestMapper.toFullDto(request);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/request/complete")
-    public RequestReadDto completeRequest(@RequestHeader Integer orderId) {
-        Request request = requestService.completeRequest(orderId);
-        return requestMapper.toReadDto(request);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/request/decline")
-    public RequestReadDto declineRequest(@RequestHeader Integer orderId) {
-        Request request = requestService.declineRequest(orderId);
+    @GetMapping("/request")
+    public RequestReadDto getRequestById(@RequestParam Integer orderId) {
+        Request request = requestService.getById(orderId);
         return requestMapper.toReadDto(request);
     }
 
@@ -68,28 +54,42 @@ public class RequestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/request/{id}")
-    public RequestReadDto getRequestById(@PathVariable Integer id) {
-        Request request = requestService.getById(id);
+    @PatchMapping("request/assign")
+    public RequestFullDto assignManager(@RequestParam Integer orderId, @RequestParam Integer managerId) {
+        Request request = requestService.assignManagerToRequest(orderId, managerId);
+        return requestMapper.toFullDto(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/request/complete")
+    public RequestReadDto completeRequest(@RequestParam Integer orderId) {
+        Request request = requestService.completeRequest(orderId);
+        return requestMapper.toReadDto(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/request/decline")
+    public RequestReadDto declineRequest(@RequestParam Integer orderId) {
+        Request request = requestService.declineRequest(orderId);
         return requestMapper.toReadDto(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/request/manager")
-    public List<RequestReadDto> getAllManagerRequests(@RequestParam Integer id) {
-        return requestMapper.toReadDtoCol(requestService.getAllRequestsByManagerId(id));
+    public List<RequestReadDto> getAllManagerRequests(@RequestParam Integer managerId) {
+        return requestMapper.toReadDtoCol(requestService.getAllRequestsByManagerId(managerId));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/request/manager/in_progress")
-    public List<RequestReadDto> getAllManagerProcessingRequests(@RequestParam Integer id) {
-        return requestMapper.toReadDtoCol(requestService.getAllInProgressRequestsForManager(id));
+    public List<RequestReadDto> getAllManagerInProgressRequests(@RequestParam Integer managerId) {
+        return requestMapper.toReadDtoCol(requestService.getAllInProgressRequestsForManager(managerId));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/request/customer")
-    public List<RequestReadDto> getAllCustomerRequests(@RequestParam Integer id) {
-        return requestMapper.toReadDtoCol(requestService.getAllRequestsByCustomerId(id));
+    public List<RequestReadDto> getAllCustomerRequests(@RequestParam Integer customerId) {
+        return requestMapper.toReadDtoCol(requestService.getAllRequestsByCustomerId(customerId));
     }
 
 }

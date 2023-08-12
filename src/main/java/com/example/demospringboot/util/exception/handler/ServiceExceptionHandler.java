@@ -33,8 +33,8 @@ public class ServiceExceptionHandler {
 
     @ExceptionHandler(RequestStatusException.class)
     public ResponseEntity<ErrorDetails> handleRequestStatusException(WebRequest request, RequestStatusException e) {
-        String[] headerValues = request.getHeaderValues("orderId");
-        String id = headerValues != null ? headerValues[0] : "NULL_ID";
+        String[] parameterValues = request.getParameterValues("orderId");
+        String id = parameterValues != null ? parameterValues[0] : "NULL_ID";
         String message = "Order with id=" + id + " already has status: " + e.getMessage();
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }

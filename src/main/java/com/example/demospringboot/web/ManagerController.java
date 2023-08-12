@@ -3,10 +3,10 @@ package com.example.demospringboot.web;
 import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.dto.ManagerDto;
 import com.example.demospringboot.dto.ManagerReadDto;
-import com.example.demospringboot.dto.OrderReadDto;
+import com.example.demospringboot.dto.BookingReadDto;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import com.example.demospringboot.util.mapper.ManagerMapper;
-import com.example.demospringboot.util.mapper.OrderMapper;
+import com.example.demospringboot.util.mapper.BookingMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class ManagerController {
 
     private final ManagerService managerService;
     private final ManagerMapper managerMapper;
-    private final OrderMapper orderMapper;
+    private final BookingMapper bookingMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/manager")
@@ -54,13 +54,13 @@ public class ManagerController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/manager/orders")
-    public List<OrderReadDto> getAllManagerOrders(@RequestParam Integer id) {
-        return orderMapper.toReadDtoCol(managerService.getAllOrdersByManagerId(id));
+    public List<BookingReadDto> getAllManagerOrders(@RequestParam Integer id) {
+        return bookingMapper.toReadDtoCol(managerService.getAllOrdersByManagerId(id));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/manager/orders/process")
-    public List<OrderReadDto> getAllManagerProcessingOrders(@RequestParam Integer id) {
-        return orderMapper.toReadDtoCol(managerService.getAllProcessingOrdersForManager(id));
+    public List<BookingReadDto> getAllManagerProcessingOrders(@RequestParam Integer id) {
+        return bookingMapper.toReadDtoCol(managerService.getAllProcessingOrdersForManager(id));
     }
 }

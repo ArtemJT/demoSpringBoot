@@ -1,9 +1,9 @@
 package com.example.demospringboot.service.impl;
 
 import com.example.demospringboot.domain.Customer;
-import com.example.demospringboot.domain.Order;
+import com.example.demospringboot.domain.Booking;
 import com.example.demospringboot.repository.CustomerRepository;
-import com.example.demospringboot.repository.OrderRepository;
+import com.example.demospringboot.repository.BookingRepository;
 import com.example.demospringboot.service.interfaces.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Random;
 public class CustomerServiceBean implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final OrderRepository orderRepository;
+    private final BookingRepository bookingRepository;
     private final Random random = new Random();
 
     @Override
@@ -60,7 +60,7 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public List<Order> getAllOrdersByCustomerId(Integer id) throws EntityNotFoundException {
-        return orderRepository.findAllByCustomer(getById(id));
+    public List<Booking> getAllOrdersByCustomerId(Integer id) throws EntityNotFoundException {
+        return bookingRepository.findAllByCustomer(getById(id));
     }
 }

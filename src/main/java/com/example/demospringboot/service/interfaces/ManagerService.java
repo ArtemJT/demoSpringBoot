@@ -1,7 +1,7 @@
 package com.example.demospringboot.service.interfaces;
 
 import com.example.demospringboot.domain.Manager;
-import com.example.demospringboot.domain.Order;
+import com.example.demospringboot.domain.Booking;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ManagerService {
 
     Manager getRandomManager();
 
-    List<Order> getAllOrdersByManagerId(Integer id);
+    List<Booking> getAllOrdersByManagerId(Integer id);
 
-    List<Order> getAllProcessingOrdersForManager(Integer id);
+    List<Booking> getAllProcessingOrdersForManager(Integer id);
 }

@@ -11,7 +11,7 @@ import lombok.Builder;
  * @author Artem Kovalov on 11.08.2023
  */
 @Builder
-public record OrderDto(
+public record BookingDto(
         @Positive
         Integer id,
 

@@ -23,7 +23,7 @@ public interface ManagerMapper {
 
     @InheritInverseConfiguration
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "bookings", ignore = true)
     Manager toEntity(ManagerDto dto);
 
     List<ManagerReadDto> toReadDtoCol(List<Manager> entityCol);

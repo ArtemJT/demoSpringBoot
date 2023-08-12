@@ -32,5 +32,5 @@ public class Manager {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
-    private Set<Order> orders;
+    private Set<Booking> bookings;
 }

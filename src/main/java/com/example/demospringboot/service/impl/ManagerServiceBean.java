@@ -1,10 +1,10 @@
 package com.example.demospringboot.service.impl;
 
 import com.example.demospringboot.domain.Manager;
-import com.example.demospringboot.domain.Order;
-import com.example.demospringboot.domain.OrderStatus;
+import com.example.demospringboot.domain.Booking;
+import com.example.demospringboot.domain.BookingStatus;
 import com.example.demospringboot.repository.ManagerRepository;
-import com.example.demospringboot.repository.OrderRepository;
+import com.example.demospringboot.repository.BookingRepository;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Random;
 public class ManagerServiceBean implements ManagerService {
 
     private final ManagerRepository managerRepository;
-    private final OrderRepository orderRepository;
+    private final BookingRepository bookingRepository;
     private final Random random = new Random();
 
     @Override
@@ -47,14 +47,14 @@ public class ManagerServiceBean implements ManagerService {
     }
 
     @Override
-    public List<Order> getAllOrdersByManagerId(Integer id) throws EntityNotFoundException {
-        return orderRepository.findAllByManager(getById(id));
+    public List<Booking> getAllOrdersByManagerId(Integer id) throws EntityNotFoundException {
+        return bookingRepository.findAllByManager(getById(id));
     }
 
     @Override
-    public List<Order> getAllProcessingOrdersForManager(Integer id) {
+    public List<Booking> getAllProcessingOrdersForManager(Integer id) {
         return getAllOrdersByManagerId(id).stream()
-                .filter(order -> OrderStatus.PROCESSING.equals(order.getStatus()))
+                .filter(order -> BookingStatus.PROCESSING.equals(order.getStatus()))
                 .toList();
     }
 

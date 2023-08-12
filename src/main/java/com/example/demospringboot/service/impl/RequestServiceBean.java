@@ -53,6 +53,13 @@ public class RequestServiceBean implements RequestService {
     }
 
     @Override
+    public List<Request> getAllNotAssign() {
+        return getAll().stream()
+                .filter(b -> b.getManager() == null)
+                .toList();
+    }
+
+    @Override
     public Request completeRequest(Integer id) {
         Request requestById = getById(id);
         checkAssign(requestById);
@@ -68,13 +75,6 @@ public class RequestServiceBean implements RequestService {
 
         requestById.setStatus(checkRequestStatus(requestById, DECLINED));
         return requestRepository.save(requestById);
-    }
-
-    @Override
-    public List<Request> getAllNotAssign() {
-        return getAll().stream()
-                .filter(b -> b.getManager() == null)
-                .toList();
     }
 
     @Override

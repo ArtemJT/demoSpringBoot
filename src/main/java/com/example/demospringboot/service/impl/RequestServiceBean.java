@@ -33,6 +33,9 @@ public class RequestServiceBean implements RequestService {
 
     @Override
     public Request create(Customer customer) {
+        // TODO Delete this. It's temporary for testing.
+        customer = customerService.getRandomCustomer();
+
         Request request = Request.builder()
                 .customer(customer)
                 .status(RequestStatus.IN_PROGRESS)
@@ -59,14 +62,12 @@ public class RequestServiceBean implements RequestService {
 
     @Override
     public Request assignManagerToRequest(Integer requestId, Integer managerId) {
-        Request request = getById(requestId);
-        if (request.getManager() != null) {
-            throw new RequestAssignException(String.valueOf(requestId));
-        }
+        Request requestById = getById(requestId);
+        checkAssign(requestById);
 
         Manager manager = managerService.getById(managerId);
-        request.setManager(manager);
-        return requestRepository.save(request);
+        requestById.setManager(manager);
+        return requestRepository.save(requestById);
     }
 
     @Override
@@ -112,8 +113,11 @@ public class RequestServiceBean implements RequestService {
     }
 
     private void checkAssign(Request requestById) {
+        Integer id = requestById.getId();
         if (requestById.getManager() == null) {
-            throw new RequestNotAssignException(String.valueOf(requestById.getId()));
+            throw new RequestNotAssignException(String.valueOf(id));
+        } else {
+            throw new RequestAssignException(String.valueOf(id));
         }
     }
 }

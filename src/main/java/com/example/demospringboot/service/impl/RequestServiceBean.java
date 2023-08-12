@@ -37,7 +37,7 @@ public class RequestServiceBean implements RequestService {
 
         Request request = Request.builder()
                 .customer(customer)
-                .status(RequestStatus.PROCESSING)
+                .status(RequestStatus.IN_PROGRESS)
                 .build();
         return requestRepository.save(request);
     }

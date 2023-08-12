@@ -52,7 +52,7 @@ public class ManagerServiceBean implements ManagerService {
     @Override
     public List<Request> getAllProcessingRequestsForManager(Integer id) {
         return getAllRequestsByManagerId(id).stream()
-                .filter(order -> RequestStatus.PROCESSING.equals(order.getStatus()))
+                .filter(order -> RequestStatus.IN_PROGRESS.equals(order.getStatus()))
                 .toList();
     }
 }

@@ -35,7 +35,7 @@ class RequestRepositoryTests {
         var request = Request.builder()
                 .id(1)
                 .creationDate(LocalDateTime.now())
-                .status(RequestStatus.PROCESSING)
+                .status(RequestStatus.IN_PROGRESS)
                 .manager(MANAGER)
                 .build();
 
@@ -43,7 +43,7 @@ class RequestRepositoryTests {
 
         assertThat(request.getId()).isNotNull();
         assertThat(request.getId()).isPositive();
-        assertThat(request.getStatus()).isEqualTo(RequestStatus.PROCESSING);
+        assertThat(request.getStatus()).isEqualTo(RequestStatus.IN_PROGRESS);
     }
 
     @Test
@@ -76,6 +76,6 @@ class RequestRepositoryTests {
         var list = repository.findAllByManager(MANAGER);
 
         assertThat(list).isNotNull().isNotEmpty();
-        assertThat(list.get(0).getStatus()).isEqualTo(RequestStatus.PROCESSING);
+        assertThat(list.get(0).getStatus()).isEqualTo(RequestStatus.IN_PROGRESS);
     }
 }

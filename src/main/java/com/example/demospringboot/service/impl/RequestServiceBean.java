@@ -63,7 +63,9 @@ public class RequestServiceBean implements RequestService {
     @Override
     public Request assignManagerToRequest(Integer requestId, Integer managerId) {
         Request requestById = getById(requestId);
-        checkAssign(requestById);
+        if (requestById.getManager() != null) {
+            throw new RequestAssignException(String.valueOf(requestId));
+        }
 
         Manager manager = managerService.getById(managerId);
         requestById.setManager(manager);
@@ -113,11 +115,8 @@ public class RequestServiceBean implements RequestService {
     }
 
     private void checkAssign(Request requestById) {
-        Integer id = requestById.getId();
         if (requestById.getManager() == null) {
-            throw new RequestNotAssignException(String.valueOf(id));
-        } else {
-            throw new RequestAssignException(String.valueOf(id));
+            throw new RequestNotAssignException(String.valueOf(requestById.getId()));
         }
     }
 }

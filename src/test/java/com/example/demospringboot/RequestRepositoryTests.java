@@ -1,18 +1,15 @@
 package com.example.demospringboot;
 
+import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.domain.Request;
 import com.example.demospringboot.domain.RequestStatus;
-import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.repository.RequestRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Artem Kovalov on 12.08.2023
@@ -34,7 +31,6 @@ class RequestRepositoryTests {
     void saveRequestTest() {
         var request = Request.builder()
                 .id(1)
-                .creationDate(LocalDateTime.now())
                 .status(RequestStatus.IN_PROGRESS)
                 .manager(MANAGER)
                 .build();

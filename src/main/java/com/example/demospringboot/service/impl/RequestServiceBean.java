@@ -34,7 +34,7 @@ public class RequestServiceBean implements RequestService {
     @Override
     public Request create(Customer customer) {
         // TODO Delete this. It's temporary for testing.
-        customer = customerService.getRandomCustomer();
+         customer = customerService.getRandomCustomer();
 
         Request request = Request.builder()
                 .customer(customer)
@@ -88,23 +88,6 @@ public class RequestServiceBean implements RequestService {
 
         requestById.setStatus(checkRequestStatus(requestById, DECLINED));
         return requestRepository.save(requestById);
-    }
-
-    @Override
-    public List<Request> getAllRequestsByCustomerId(Integer id) throws EntityNotFoundException {
-        return requestRepository.findAllByCustomer(customerService.getById(id));
-    }
-
-    @Override
-    public List<Request> getAllRequestsByManagerId(Integer id) throws EntityNotFoundException {
-        return requestRepository.findAllByManager(managerService.getById(id));
-    }
-
-    @Override
-    public List<Request> getAllInProgressRequestsForManager(Integer id) {
-        return getAllRequestsByManagerId(id).stream()
-                .filter(order -> RequestStatus.IN_PROGRESS.equals(order.getStatus()))
-                .toList();
     }
 
     @Override

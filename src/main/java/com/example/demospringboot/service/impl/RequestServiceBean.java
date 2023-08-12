@@ -33,9 +33,6 @@ public class RequestServiceBean implements RequestService {
 
     @Override
     public Request create(Customer customer) {
-        // TODO Delete this. It's temporary for testing.
-         customer = customerService.getRandomCustomer();
-
         Request request = Request.builder()
                 .customer(customer)
                 .status(RequestStatus.IN_PROGRESS)
@@ -61,10 +58,10 @@ public class RequestServiceBean implements RequestService {
     }
 
     @Override
-    public Request assignManagerToRequest(Integer bookingId, Integer managerId) {
-        Request request = getById(bookingId);
+    public Request assignManagerToRequest(Integer requestId, Integer managerId) {
+        Request request = getById(requestId);
         if (request.getManager() != null) {
-            throw new RequestAssignException(String.valueOf(bookingId));
+            throw new RequestAssignException(String.valueOf(requestId));
         }
 
         Manager manager = managerService.getById(managerId);

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import java.sql.SQLException;
 import java.util.StringJoiner;
 
 import static com.example.demospringboot.util.exception.handler.ErrorDetails.getResponseEntity;
@@ -32,11 +31,6 @@ public class ServiceExceptionHandler {
         return getResponseEntity(message, request, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ErrorDetails> handleSqlException(WebRequest request, SQLException e) {
-        return getResponseEntity(e.getLocalizedMessage(), request, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(RequestStatusException.class)
     public ResponseEntity<ErrorDetails> handleRequestStatusException(WebRequest request, RequestStatusException e) {
         String[] headerValues = request.getHeaderValues("orderId");
@@ -47,13 +41,13 @@ public class ServiceExceptionHandler {
 
     @ExceptionHandler(RequestAssignException.class)
     public ResponseEntity<ErrorDetails> handleRequestAssignException(WebRequest request, RequestAssignException e) {
-                String message = "Order with id=" + e.getMessage() + " already assigned";
+        String message = "Order with id=" + e.getMessage() + " already assigned";
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RequestNotAssignException.class)
     public ResponseEntity<ErrorDetails> handleRequestNotAssignException(WebRequest request, RequestNotAssignException e) {
-                String message = "Request with id=" + e.getMessage() + " not assigned yet";
+        String message = "Request with id=" + e.getMessage() + " not assigned yet";
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }
 }

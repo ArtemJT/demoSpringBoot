@@ -23,55 +23,73 @@ import java.util.List;
 public class RequestController {
 
     private final RequestService requestService;
-    private final RequestMapper mapper;
+    private final RequestMapper requestMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/request")
     public RequestReadDto createRequest(@RequestBody @Valid Customer customer) {
         Request request = requestService.create(customer);
-        return mapper.toReadDto(request);
+        return requestMapper.toReadDto(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("request/assign")
     public RequestFullDto assignManager(@RequestParam Integer orderId, @RequestParam Integer managerId) {
         Request request = requestService.assignManagerToRequest(orderId, managerId);
-        return mapper.toFullDto(request);
+        return requestMapper.toFullDto(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/request/complete")
     public RequestReadDto completeRequest(@RequestHeader Integer orderId) {
         Request request = requestService.completeRequest(orderId);
-        return mapper.toReadDto(request);
+        return requestMapper.toReadDto(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/request/decline")
     public RequestReadDto declineRequest(@RequestHeader Integer orderId) {
         Request request = requestService.declineRequest(orderId);
-        return mapper.toReadDto(request);
+        return requestMapper.toReadDto(request);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/request")
+    @GetMapping("/request/all")
     public List<RequestReadDto> getAllRequests() {
         List<Request> requests = requestService.getAll();
-        return mapper.toReadDtoCol(requests);
+        return requestMapper.toReadDtoCol(requests);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/request/not_assign")
     public List<RequestReadDto> getAllNotAssignRequests() {
         List<Request> requests = requestService.getAllNotAssign();
-        return mapper.toReadDtoCol(requests);
+        return requestMapper.toReadDtoCol(requests);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/request/{id}")
-    public RequestReadDto getOrderById(@PathVariable Integer id) {
+    public RequestReadDto getRequestById(@PathVariable Integer id) {
         Request request = requestService.getById(id);
-        return mapper.toReadDto(request);
+        return requestMapper.toReadDto(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/request/manager")
+    public List<RequestReadDto> getAllManagerRequests(@RequestParam Integer id) {
+        return requestMapper.toReadDtoCol(requestService.getAllRequestsByManagerId(id));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/request/manager/in_progress")
+    public List<RequestReadDto> getAllManagerProcessingRequests(@RequestParam Integer id) {
+        return requestMapper.toReadDtoCol(requestService.getAllInProgressRequestsForManager(id));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/request/customer")
+    public List<RequestReadDto> getAllCustomerRequests(@RequestParam Integer id) {
+        return requestMapper.toReadDtoCol(requestService.getAllRequestsByCustomerId(id));
     }
 
 }

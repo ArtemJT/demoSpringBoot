@@ -1,9 +1,9 @@
 package com.example.demospringboot.service.impl;
 
-import com.example.demospringboot.domain.Request;
-import com.example.demospringboot.domain.RequestStatus;
 import com.example.demospringboot.domain.Customer;
 import com.example.demospringboot.domain.Manager;
+import com.example.demospringboot.domain.Request;
+import com.example.demospringboot.domain.RequestStatus;
 import com.example.demospringboot.repository.RequestRepository;
 import com.example.demospringboot.service.interfaces.CustomerService;
 import com.example.demospringboot.service.interfaces.ManagerService;
@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demospringboot.domain.RequestStatus.*;
+import static com.example.demospringboot.domain.RequestStatus.COMPLETED;
+import static com.example.demospringboot.domain.RequestStatus.DECLINED;
 
 /**
  * @author Artem Kovalov on 10.08.2023
@@ -87,6 +88,23 @@ public class RequestServiceBean implements RequestService {
         Manager manager = managerService.getById(managerId);
         request.setManager(manager);
         return requestRepository.save(request);
+    }
+
+    @Override
+    public List<Request> getAllRequestsByCustomerId(Integer id) throws EntityNotFoundException {
+        return requestRepository.findAllByCustomer(customerService.getById(id));
+    }
+
+    @Override
+    public List<Request> getAllRequestsByManagerId(Integer id) throws EntityNotFoundException {
+        return requestRepository.findAllByManager(managerService.getById(id));
+    }
+
+    @Override
+    public List<Request> getAllInProgressRequestsForManager(Integer id) {
+        return getAllRequestsByManagerId(id).stream()
+                .filter(order -> RequestStatus.IN_PROGRESS.equals(order.getStatus()))
+                .toList();
     }
 
     private RequestStatus checkRequestStatus(Request request, RequestStatus status) {

@@ -1,7 +1,7 @@
 package com.example.demospringboot.service.interfaces;
 
 import com.example.demospringboot.domain.Manager;
-import com.example.demospringboot.domain.Request;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
@@ -10,15 +10,36 @@ import java.util.List;
  */
 public interface ManagerService {
 
+    /**
+     * Saving record Manager into DB
+     *
+     * @param manager passed from JSON-request
+     * @return object Manager if saving successful
+     */
     Manager create(Manager manager);
 
-    Manager getById(Integer id);
+    /**
+     * Finding record by ID
+     *
+     * @param id Manager id
+     * @return Manager which found in DB
+     * @throws EntityNotFoundException if object not found
+     */
+    Manager getById(Integer id) throws EntityNotFoundException;
 
+    /**
+     * Finding all records
+     *
+     * @return list of records
+     */
     List<Manager> getAll();
 
-    Manager deleteById(Integer id);
-
-    List<Request> getAllRequestsByManagerId(Integer id);
-
-    List<Request> getAllProcessingRequestsForManager(Integer id);
+    /**
+     * Marking record as 'deleted'
+     *
+     * @param id Manager id
+     * @return marked record if successful
+     * @throws EntityNotFoundException if object not found
+     */
+    Manager deleteById(Integer id) throws EntityNotFoundException;
 }

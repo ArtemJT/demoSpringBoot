@@ -1,10 +1,8 @@
 package com.example.demospringboot.service.impl;
 
-import com.example.demospringboot.domain.Request;
-import com.example.demospringboot.domain.RequestStatus;
 import com.example.demospringboot.domain.Manager;
-import com.example.demospringboot.repository.RequestRepository;
 import com.example.demospringboot.repository.ManagerRepository;
+import com.example.demospringboot.repository.RequestRepository;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -42,17 +40,5 @@ public class ManagerServiceBean implements ManagerService {
         Manager managerById = getById(id);
         managerById.setIsDeleted(true);
         return managerRepository.save(managerById);
-    }
-
-    @Override
-    public List<Request> getAllRequestsByManagerId(Integer id) throws EntityNotFoundException {
-        return requestRepository.findAllByManager(getById(id));
-    }
-
-    @Override
-    public List<Request> getAllProcessingRequestsForManager(Integer id) {
-        return getAllRequestsByManagerId(id).stream()
-                .filter(order -> RequestStatus.IN_PROGRESS.equals(order.getStatus()))
-                .toList();
     }
 }

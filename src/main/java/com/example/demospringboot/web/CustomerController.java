@@ -2,10 +2,8 @@ package com.example.demospringboot.web;
 
 import com.example.demospringboot.domain.Customer;
 import com.example.demospringboot.dto.CustomerDto;
-import com.example.demospringboot.dto.RequestReadDto;
 import com.example.demospringboot.service.interfaces.CustomerService;
 import com.example.demospringboot.util.mapper.CustomerMapper;
-import com.example.demospringboot.util.mapper.RequestMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +22,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
-    private final RequestMapper requestMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/customer")
@@ -49,11 +46,5 @@ public class CustomerController {
     @GetMapping("/customer/all")
     public List<CustomerDto> getAllCustomers() {
         return customerMapper.toDtoCol(customerService.getAll());
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/customer/requests")
-    public List<RequestReadDto> getAllCustomerOrders(@RequestParam Integer id) {
-        return requestMapper.toReadDtoCol(customerService.getAllRequestsByCustomerId(id));
     }
 }

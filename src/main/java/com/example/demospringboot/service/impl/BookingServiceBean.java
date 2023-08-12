@@ -2,11 +2,15 @@ package com.example.demospringboot.service.impl;
 
 import com.example.demospringboot.domain.Booking;
 import com.example.demospringboot.domain.BookingStatus;
+import com.example.demospringboot.domain.Customer;
+import com.example.demospringboot.domain.Manager;
 import com.example.demospringboot.repository.BookingRepository;
 import com.example.demospringboot.service.interfaces.CustomerService;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import com.example.demospringboot.service.interfaces.BookingService;
-import com.example.demospringboot.util.exception.OrderStatusException;
+import com.example.demospringboot.util.exception.BookingAssignException;
+import com.example.demospringboot.util.exception.BookingNotAssignException;
+import com.example.demospringboot.util.exception.BookingStatusException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,10 +31,12 @@ public class BookingServiceBean implements BookingService {
     private final CustomerService customerService;
 
     @Override
-    public Booking create() {
+    public Booking create(Customer customer) {
+        // TODO Delete this. It's temporary for testing.
+        customer = customerService.getRandomCustomer();
+
         Booking booking = Booking.builder()
-                .customer(customerService.getRandomCustomer())
-                .manager(managerService.getRandomManager())
+                .customer(customer)
                 .status(BookingStatus.PROCESSING)
                 .build();
         return bookingRepository.save(booking);
@@ -49,22 +55,50 @@ public class BookingServiceBean implements BookingService {
     @Override
     public Booking completeOrder(Integer id) {
         Booking bookingById = getById(id);
-        if (COMPLETED.equals(bookingById.getStatus())) {
-            throw new OrderStatusException(COMPLETED.name());
-        }
+        checkAssign(bookingById);
 
-        bookingById.setStatus(COMPLETED);
+        bookingById.setStatus(validateBookingStatus(bookingById, COMPLETED));
         return bookingRepository.save(bookingById);
     }
 
     @Override
     public Booking declineOrder(Integer id) {
         Booking bookingById = getById(id);
-        if (DECLINED.equals(bookingById.getStatus())) {
-            throw new OrderStatusException(DECLINED.name());
+        checkAssign(bookingById);
+
+        bookingById.setStatus(validateBookingStatus(bookingById, DECLINED));
+        return bookingRepository.save(bookingById);
+    }
+
+    @Override
+    public List<Booking> getAllNotAssign() {
+        return getAll().stream()
+                .filter(b -> b.getManager() == null)
+                .toList();
+    }
+
+    @Override
+    public Booking assignManagerToBooking(Integer bookingId, Integer managerId) {
+        Booking booking = getById(bookingId);
+        if (booking.getManager() != null) {
+            throw new BookingAssignException(String.valueOf(bookingId));
         }
 
-        bookingById.setStatus(DECLINED);
-        return bookingRepository.save(bookingById);
+        Manager manager = managerService.getById(managerId);
+        booking.setManager(manager);
+        return bookingRepository.save(booking);
+    }
+
+    private BookingStatus validateBookingStatus(Booking booking, BookingStatus status) {
+        if (status.equals(booking.getStatus())) {
+            throw new BookingStatusException(status.name());
+        }
+        return status;
+    }
+
+    private void checkAssign(Booking bookingById) {
+        if (bookingById.getManager() == null) {
+            throw new BookingNotAssignException(String.valueOf(bookingById.getId()));
+        }
     }
 }

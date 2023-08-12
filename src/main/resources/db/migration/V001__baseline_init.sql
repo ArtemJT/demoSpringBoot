@@ -17,16 +17,16 @@ create table if not exists public.clients
     is_deleted boolean default false
 );
 
-create table if not exists public.bookings
+create table if not exists public.requests
 (
     id            serial
         primary key,
     creation_date timestamp,
     status        varchar,
     client_id     integer
-        constraint fk_bookings_clients references public.clients,
+        constraint fk_requests_clients references public.clients,
     manager_id    integer
-        constraint fk_bookings_managers references public.managers
+        constraint fk_requests_managers references public.managers
 );
 
 

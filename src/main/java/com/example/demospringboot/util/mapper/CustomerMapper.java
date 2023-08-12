@@ -20,7 +20,7 @@ public interface CustomerMapper {
 
     @InheritInverseConfiguration
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "bookings", ignore = true)
+    @Mapping(target = "requests", ignore = true)
     Customer toEntity(CustomerDto dto);
 
     List<CustomerDto> toDtoCol(List<Customer> entityCol);

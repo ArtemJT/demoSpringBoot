@@ -1,8 +1,8 @@
 package com.example.demospringboot.util.exception.handler;
 
-import com.example.demospringboot.util.exception.BookingAssignException;
-import com.example.demospringboot.util.exception.BookingNotAssignException;
-import com.example.demospringboot.util.exception.BookingStatusException;
+import com.example.demospringboot.util.exception.RequestAssignException;
+import com.example.demospringboot.util.exception.RequestNotAssignException;
+import com.example.demospringboot.util.exception.RequestStatusException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,23 +37,23 @@ public class ServiceExceptionHandler {
         return getResponseEntity(e.getLocalizedMessage(), request, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BookingStatusException.class)
-    public ResponseEntity<ErrorDetails> handleBookingStatusException(WebRequest request, BookingStatusException e) {
+    @ExceptionHandler(RequestStatusException.class)
+    public ResponseEntity<ErrorDetails> handleRequestStatusException(WebRequest request, RequestStatusException e) {
         String[] headerValues = request.getHeaderValues("orderId");
         String id = headerValues != null ? headerValues[0] : "NULL_ID";
         String message = "Order with id=" + id + " already has status: " + e.getMessage();
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BookingAssignException.class)
-    public ResponseEntity<ErrorDetails> handleBookingAssignException(WebRequest request, BookingAssignException e) {
+    @ExceptionHandler(RequestAssignException.class)
+    public ResponseEntity<ErrorDetails> handleRequestAssignException(WebRequest request, RequestAssignException e) {
                 String message = "Order with id=" + e.getMessage() + " already assigned";
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BookingNotAssignException.class)
-    public ResponseEntity<ErrorDetails> handleBookingNotAssignException(WebRequest request, BookingNotAssignException e) {
-                String message = "Booking with id=" + e.getMessage() + " not assigned yet";
+    @ExceptionHandler(RequestNotAssignException.class)
+    public ResponseEntity<ErrorDetails> handleRequestNotAssignException(WebRequest request, RequestNotAssignException e) {
+                String message = "Request with id=" + e.getMessage() + " not assigned yet";
         return getResponseEntity(message, request, HttpStatus.BAD_REQUEST);
     }
 }

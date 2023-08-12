@@ -34,6 +34,6 @@ public class Customer {
     private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Set<Booking> bookings;
+    private Set<Request> requests;
 
 }

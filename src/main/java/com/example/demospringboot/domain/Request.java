@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name = "bookings")
-public class Booking {
+@Table(name = "requests")
+public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Booking {
     private LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(nullable = false)
-    private BookingStatus status;
+    private RequestStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")

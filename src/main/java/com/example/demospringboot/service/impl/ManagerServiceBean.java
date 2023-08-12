@@ -1,9 +1,9 @@
 package com.example.demospringboot.service.impl;
 
-import com.example.demospringboot.domain.Booking;
-import com.example.demospringboot.domain.BookingStatus;
+import com.example.demospringboot.domain.Request;
+import com.example.demospringboot.domain.RequestStatus;
 import com.example.demospringboot.domain.Manager;
-import com.example.demospringboot.repository.BookingRepository;
+import com.example.demospringboot.repository.RequestRepository;
 import com.example.demospringboot.repository.ManagerRepository;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ManagerServiceBean implements ManagerService {
 
     private final ManagerRepository managerRepository;
-    private final BookingRepository bookingRepository;
+    private final RequestRepository requestRepository;
 
     @Override
     public Manager create(Manager manager) {
@@ -45,14 +45,14 @@ public class ManagerServiceBean implements ManagerService {
     }
 
     @Override
-    public List<Booking> getAllOrdersByManagerId(Integer id) throws EntityNotFoundException {
-        return bookingRepository.findAllByManager(getById(id));
+    public List<Request> getAllRequestsByManagerId(Integer id) throws EntityNotFoundException {
+        return requestRepository.findAllByManager(getById(id));
     }
 
     @Override
-    public List<Booking> getAllProcessingOrdersForManager(Integer id) {
-        return getAllOrdersByManagerId(id).stream()
-                .filter(order -> BookingStatus.PROCESSING.equals(order.getStatus()))
+    public List<Request> getAllProcessingRequestsForManager(Integer id) {
+        return getAllRequestsByManagerId(id).stream()
+                .filter(order -> RequestStatus.PROCESSING.equals(order.getStatus()))
                 .toList();
     }
 }

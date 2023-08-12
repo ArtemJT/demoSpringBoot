@@ -5,7 +5,7 @@ import com.example.demospringboot.dto.ManagerDto;
 import com.example.demospringboot.dto.ManagerReadDto;
 import com.example.demospringboot.service.interfaces.ManagerService;
 import com.example.demospringboot.util.mapper.ManagerMapper;
-import com.example.demospringboot.util.mapper.BookingMapper;
+import com.example.demospringboot.util.mapper.RequestMapper;
 import com.example.demospringboot.web.ManagerController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +43,7 @@ class ManagerControllerTests {
     private ManagerMapper managerMapper;
 
     @MockBean
-    private BookingMapper bookingMapper;
+    private RequestMapper requestMapper;
 
     @Autowired
     private MockMvc mockMvc;

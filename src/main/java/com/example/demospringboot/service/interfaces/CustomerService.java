@@ -1,7 +1,7 @@
 package com.example.demospringboot.service.interfaces;
 
 import com.example.demospringboot.domain.Customer;
-import com.example.demospringboot.domain.Booking;
+import com.example.demospringboot.domain.Request;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface CustomerService {
     // TODO Delete temporary method
     Customer getRandomCustomer();
 
-    List<Booking> getAllOrdersByCustomerId(Integer id);
+    List<Request> getAllRequestsByCustomerId(Integer id);
 }

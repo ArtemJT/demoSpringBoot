@@ -1,6 +1,6 @@
 package com.example.demospringboot;
 
-import com.example.demospringboot.web.BookingController;
+import com.example.demospringboot.web.RequestController;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ class DemoSpringBootApplicationTests {
 
     @Autowired
     @Lazy
-    private BookingController bookingController;
+    private RequestController requestController;
 
 
     @Test
     void contextLoads() {
-        Assertions.assertThat(bookingController).isNotNull();
+        Assertions.assertThat(requestController).isNotNull();
     }
 
 }

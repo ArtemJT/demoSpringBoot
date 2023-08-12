@@ -33,6 +33,9 @@ public class RequestServiceBean implements RequestService {
 
     @Override
     public Request create(Customer customer) {
+        // TODO Delete this. It's temporary for testing.
+         customer = customerService.getRandomCustomer();
+
         Request request = Request.builder()
                 .customer(customer)
                 .status(RequestStatus.IN_PROGRESS)

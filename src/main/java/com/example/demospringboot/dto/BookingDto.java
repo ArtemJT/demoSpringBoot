@@ -1,7 +1,6 @@
 package com.example.demospringboot.dto;
 
 import com.example.demospringboot.domain.Customer;
-import com.example.demospringboot.domain.Manager;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,10 +16,6 @@ public record BookingDto(
 
         @NotNull
         @NotEmpty
-        Customer customer,
-
-        @NotNull
-        @NotEmpty
-        Manager manager) {
+        Customer customer) {
 
 }
